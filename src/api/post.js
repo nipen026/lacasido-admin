@@ -15,7 +15,7 @@ export const REGISTER = (data) => {
 export const LOGIN = (data) => {
   return new Promise((resolve, reject) => {
     axios
-      .post(`${base_url}auth/login`, data)
+      .post(`${base_url}/api/admin-login`, data)
       .then((res) => resolve(res))
       .catch((err) => reject(err));
   });

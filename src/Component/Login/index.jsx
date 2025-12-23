@@ -36,8 +36,9 @@ const Login = () => {
                     position: 'top-right',
                     autoClose: 3000,
                 });
-
-                localStorage.setItem('token', res.data.token);
+                console.log(res.data?.data?.token);
+                
+                localStorage.setItem('token', res.data?.data?.token);
                 navigate('/');
             })
             .catch((err) => {

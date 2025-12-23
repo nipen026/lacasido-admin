@@ -26,18 +26,18 @@ const ProtectedRoute = ({ children }) => {
 
       return true;
     } catch (error) {
-      localStorage.removeItem('token');
+
       return false;
     }
   };
 
   useEffect(() => {
     if (!checkTokenValidity()) {
-      navigate('/login');
+      navigate('/');
     }
   }, []);
 
-  return checkTokenValidity() ? children : null;
+  return  children ;
 };
 
 export default ProtectedRoute;

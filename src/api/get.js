@@ -6,7 +6,7 @@ const token = localStorage.getItem('token')
 export const GET_PRODUCT = () => {
   return new Promise((resolve, reject) => {
     axios
-      .get(`${base_url}products/getProducts`)
+      .get(`${base_url}/api/products`)
       .then((res) => resolve(res))
       .catch((err) => reject(err));
   });
