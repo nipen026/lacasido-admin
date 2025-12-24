@@ -143,9 +143,9 @@ const ProductTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {products.map((product) => (
+            {products.map((product, index) => (
               <TableRow key={product.id}>
-                <TableCell>{product.id}</TableCell>
+                <TableCell>{index + 1}</TableCell>
 
                 {/* Product Image */}
                 <TableCell>
