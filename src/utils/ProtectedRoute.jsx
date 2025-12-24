@@ -33,7 +33,7 @@ const ProtectedRoute = ({ children }) => {
 
   useEffect(() => {
     if (!checkTokenValidity()) {
-      navigate('/');
+      navigate('/product');
     }
   }, []);
 

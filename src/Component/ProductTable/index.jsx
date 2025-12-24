@@ -97,18 +97,18 @@ const ProductTable = () => {
           <Button variant="contained" onClick={() => navigate('/product-form')} startIcon={<Plus size={18} />} sx={{ bgcolor: royalGreen }}>
             Add New Product
           </Button>
-          <Button variant="outlined" sx={{ color: royalGreen, borderColor: royalGreen }}>
+          {/* <Button variant="outlined" sx={{ color: royalGreen, borderColor: royalGreen }}>
             Export
           </Button>
           <Button variant="outlined" startIcon={<Import size={18} />} sx={{ color: royalGreen, borderColor: royalGreen }}>
             Import
           </Button>
-          <IconButton><LayoutList size={20} /></IconButton>
+          <IconButton><LayoutList size={20} /></IconButton> */}
         </Stack>
       </Box>
 
       {/* Filters */}
-      <Box sx={{ mb: 2, display: 'flex', gap: 1 }}>
+      {/* <Box sx={{ mb: 2, display: 'flex', gap: 1 }}>
         <TextField
           size="small"
           placeholder="Search products..."
@@ -124,7 +124,7 @@ const ProductTable = () => {
         <Button startIcon={<Filter size={18} />} variant="outlined" sx={{ color: royalGreen, borderColor: royalGreen }}>
           Filters
         </Button>
-      </Box>
+      </Box> */}
 
       {/* Product Table */}
       <TableContainer component={Paper}>

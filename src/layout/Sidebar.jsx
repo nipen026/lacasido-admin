@@ -24,7 +24,7 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
   const location = useLocation();
 
   const menuItems = [
-    { label: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/' },
+    // { label: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/' },
     { label: 'Products', icon: <Package size={20} />, path: '/product' },
     // { label: 'Inventory', icon: <Boxes size={20} />, path: '/inventory' },
     // { label: 'Orders', icon: <ShoppingCart size={20} />, path: '/orders' },
