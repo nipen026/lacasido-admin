@@ -30,14 +30,14 @@ const Login = () => {
     } = useForm();
 
     const onSubmit = (data) => {
-            LOGIN(data)
+        LOGIN(data)
             .then((res) => {
                 toast.success('Logged in successfully!', {
                     position: 'top-right',
                     autoClose: 3000,
                 });
                 console.log(res.data?.data?.token);
-                
+
                 localStorage.setItem('token', res.data?.data?.token);
                 navigate('/product');
             })
