@@ -69,7 +69,7 @@ const Category = () => {
     formData.append('status', status);
     if (parentId) formData.append('parent_id', parentId);
 
-    images.forEach(img => formData.append('images[]', img));
+    images.forEach((img, index) => formData.append(`image`, img));
 
     await ADD_CATEGORY(formData);
     fetchData();
@@ -211,7 +211,6 @@ const Category = () => {
               label="Parent Id"
               value={parentId || ''}
               onChange={e => setParentId(e.target.value)}
-              required
             />
 
             <TextField
