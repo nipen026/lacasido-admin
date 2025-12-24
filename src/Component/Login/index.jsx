@@ -39,7 +39,7 @@ const Login = () => {
                 console.log(res.data?.data?.token);
                 
                 localStorage.setItem('token', res.data?.data?.token);
-                navigate('/');
+                navigate('/product');
             })
             .catch((err) => {
                 const message =
@@ -147,12 +147,12 @@ const Login = () => {
                             }}
                         />
 
-                        <Box display="flex" justifyContent="space-between" alignItems="center">
+                        {/* <Box display="flex" justifyContent="space-between" alignItems="center">
                             <FormControlLabel control={<Checkbox />} label="Remember me" />
                             <Link href="#" fontSize={14}>
                                 Forgot password?
                             </Link>
-                        </Box>
+                        </Box> */}
 
                         <Button
                             type="submit"
@@ -163,9 +163,9 @@ const Login = () => {
                             Sign In
                         </Button>
 
-                        <Typography variant="body2" align="center" mt={2}>
+                        {/* <Typography variant="body2" align="center" mt={2}>
                             Don’t have an account? <Link href="/register">Register</Link>
-                        </Typography>
+                        </Typography> */}
                     </form>
                 </Paper>
             </Box>
