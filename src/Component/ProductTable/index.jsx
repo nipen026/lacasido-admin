@@ -191,11 +191,11 @@ const ProductTable = () => {
                 {/* Actions */}
                 <TableCell align="center">
                   <Stack direction="row" spacing={1} justifyContent="center">
-                    <IconButton onClick={() => navigate(`/productDetails/${product.id}`)}>
+                    <IconButton onClick={() => navigate(`/productDetails/${product.id}`,{state: { product }})}>
                       <Eye size={16} />
                     </IconButton>
 
-                    <IconButton onClick={() => navigate(`/product-form?id=${product.id}`)}>
+                    <IconButton onClick={() => navigate(`/product-form?id=${product.id}`,{state: { product }})}>
                       <Pencil size={16} />
                     </IconButton>
 

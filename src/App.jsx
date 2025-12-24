@@ -18,6 +18,8 @@ import "slick-carousel/slick/slick-theme.css";
 import BannerPage from './Pages/BannerPage';
 import ReviewPage from './Pages/ReviewPage';
 import CouponPage from './Pages/CouponPage';
+import CategoryPage from './Pages/BannerPage';
+import DropdownsPage from './Pages/CouponPage';
 
 
 function App() {
@@ -40,9 +42,9 @@ function App() {
           <Route path="/orders" element={<Order />} />
           <Route path="/users" element={<User />} />
           <Route path="/tracking" element={<Tracking />} />
-          <Route path="/banner" element={<BannerPage />} />
+          <Route path="/category" element={<CategoryPage />} />
           <Route path="/rating" element={<ReviewPage />} />
-          <Route path="/coupon" element={<CouponPage />} />
+          <Route path="/dropdowns" element={<DropdownsPage />} />
         </Route>
 
         {/* Public */}

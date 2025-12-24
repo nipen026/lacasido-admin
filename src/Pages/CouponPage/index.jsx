@@ -1,11 +1,12 @@
+import Dropdowns from "../../Component/Coupon";
 import Coupon from "../../Component/Coupon";
 
-const CouponPage = () =>{
+const DropdownsPage = () =>{
     return (
         <>
-        <Coupon/>
+        <Dropdowns/>
         </>
     )
 }
 
-export default CouponPage;
+export default DropdownsPage;

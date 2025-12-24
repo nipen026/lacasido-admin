@@ -71,10 +71,10 @@ export const GET_ORDER_SUMMARY = () => {
       .catch((err) => reject(err));
   });
 };
-export const GET_BANNER = () => {
+export const GET_CATEGORY = () => {
   return new Promise((resolve, reject) => {
     axios
-      .get(`${base_url}banner/active`,{
+      .get(`${base_url}/api/categories`,{
         headers:{
             Authorization:`Bearer ${token}`
         }
@@ -95,10 +95,22 @@ export const GET_REVIEW = () => {
       .catch((err) => reject(err));
   });
 };
-export const GET_COUPON = () => {
+export const GET_DROPDOWNS = () => {
   return new Promise((resolve, reject) => {
     axios
-      .get(`${base_url}coupons/getAllCoupon`,{
+      .get(`${base_url}/api/dropdowns`,{
+        headers:{
+            Authorization:`Bearer ${token}`
+        }
+      })
+      .then((res) => resolve(res))
+      .catch((err) => reject(err));
+  });
+};
+export const GET_DROPDOWNS_BY_TYPE = (type) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`${base_url}/api/dropdowns/type/${type}`,{
         headers:{
             Authorization:`Bearer ${token}`
         }

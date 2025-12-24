@@ -1,163 +1,152 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
-  Box, Typography, Button, Dialog, DialogTitle, DialogContent, TextField,
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, MenuItem
-} from '@mui/material';
-import { Plus } from 'lucide-react';
-import axios from 'axios';
-import { GET_COUPON } from '../../api/get';
-import { ADD_COUPON } from '../../api/post';
+  Box,
+  Typography,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  TextField,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  MenuItem,
+  IconButton,
+} from "@mui/material";
+import { Plus, Trash } from "lucide-react";
+import { GET_DROPDOWNS } from "../../api/get";
+import { ADD_DROPDOWN } from "../../api/post";
+import { DELETE_DROPDOWN } from "../../api/delete";
 
-const Coupon = () => {
-  const [coupons, setCoupons] = useState([]);
+const Dropdowns = () => {
+  const [rows, setRows] = useState([]);
   const [open, setOpen] = useState(false);
+
   const [form, setForm] = useState({
-    code: '',
-    discountType: 'percentage',
-    discountValue: '',
-    minOrderAmount: '',
-    expiresAt: '',
-    label: '',
+    type: "",
+    label: "",
   });
 
-  const fetchCoupons = async () => {
-    const res = await GET_COUPON();
-    setCoupons(res.data.coupons || []);
+  /* ================= FETCH ================= */
+  const fetchDropdowns = async () => {
+    const res = await GET_DROPDOWNS();
+    setRows(res.data?.data || []);
   };
 
   useEffect(() => {
-    fetchCoupons();
+    fetchDropdowns();
   }, []);
 
+  /* ================= FORM ================= */
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await ADD_COUPON(form);
-    fetchCoupons();
-    setForm({
-      code: '',
-      discountType: 'percentage',
-      discountValue: '',
-      minOrderAmount: '',
-      expiresAt: '',
-      label:''
-    });
+    await ADD_DROPDOWN(form);
+    fetchDropdowns();
+    setForm({ type: "", label: "" });
     setOpen(false);
   };
-
+  const handleDeleteDropdown = async (id) => {
+    await DELETE_DROPDOWN(id);
+    fetchDropdowns();
+  };
   return (
     <Box p={3}>
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
-        <Typography variant="h5">Coupon Management</Typography>
+      {/* HEADER */}
+      <Box display="flex" justifyContent="space-between" mb={3}>
+        <Typography variant="h5" fontWeight="bold">
+          Dropdown Management
+        </Typography>
         <Button
           variant="contained"
           startIcon={<Plus size={18} />}
           onClick={() => setOpen(true)}
         >
-          Add Coupon
+          Add Dropdown
         </Button>
       </Box>
 
-      {/* Coupon Table */}
+      {/* TABLE */}
       <TableContainer component={Paper}>
         <Table>
-          <TableHead sx={{ backgroundColor: '#f5f5f5' }}>
+          <TableHead sx={{ backgroundColor: "#f5f5f5" }}>
             <TableRow>
-              <TableCell>Code</TableCell>
-              <TableCell>label</TableCell>
+              <TableCell>ID</TableCell>
               <TableCell>Type</TableCell>
-              <TableCell>Value</TableCell>
-              <TableCell>Min Order</TableCell>
-              <TableCell>Expires At</TableCell>
+              <TableCell>Label</TableCell>
+              <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {coupons.map((coupon) => (
-              <TableRow key={coupon.id}>
-                <TableCell>{coupon.code}</TableCell>
-                <TableCell>{coupon.label}</TableCell>
-                <TableCell>{coupon.discountType}</TableCell>
-                <TableCell>
-                  {coupon.discountType === 'percentage'
-                    ? `${coupon.discountValue}%`
-                    : `₹${coupon.discountValue}`}
+            {rows.length ? (
+              rows.map((row) => (
+                <TableRow key={row.id}>
+                  <TableCell>{row.id}</TableCell>
+                  <TableCell>{row.type}</TableCell>
+                  <TableCell>{row.label}</TableCell>
+                  <TableCell>
+                    <IconButton type="error" onClick={() => handleDeleteDropdown(row.id)}>
+                      <Trash  size={16} />
+                    </IconButton>
+
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={3} align="center">
+                  No data found
                 </TableCell>
-                <TableCell>₹{coupon.minOrderAmount}</TableCell>
-                <TableCell>{new Date(coupon.expiresAt).toLocaleDateString()}</TableCell>
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
       </TableContainer>
 
-      {/* Add Coupon Dialog */}
+      {/* ADD DIALOG */}
       <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle>Add New Coupon</DialogTitle>
+        <DialogTitle>Add Dropdown</DialogTitle>
         <DialogContent>
-          <Box component="form" onSubmit={handleSubmit} display="flex" flexDirection="column" gap={2} mt={1}>
-             <TextField
-              label="Discount Label"
-              name="label"
-              type="text"
-              value={form.label}
-              onChange={handleChange}
-              fullWidth
-              required
-            />
-            <TextField
-              label="Coupon Code"
-              name="code"
-              value={form.code}
-              onChange={handleChange}
-              fullWidth
-              required
-            />
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            mt={2}
+            display="flex"
+            flexDirection="column"
+            gap={2}
+          >
             <TextField
               select
-              label="Discount Type"
-              name="discountType"
-              value={form.discountType}
+              label="Type"
+              name="type"
+              value={form.type}
               onChange={handleChange}
-              fullWidth
               required
             >
-              <MenuItem value="percentage">Percentage (%)</MenuItem>
-              <MenuItem value="flat">Fixed Amount (₹)</MenuItem>
+              <MenuItem value="color">Color</MenuItem>
+              <MenuItem value="size">Size</MenuItem>
+              <MenuItem value="material">Material</MenuItem>
             </TextField>
+
             <TextField
-              label="Discount Value"
-              name="discountValue"
-              type="number"
-              value={form.discountValue}
+              label="Label"
+              name="label"
+              value={form.label}
               onChange={handleChange}
-              fullWidth
               required
             />
-           
-            <TextField
-              label="Minimum Order Amount"
-              name="minOrderAmount"
-              type="number"
-              value={form.minOrderAmount}
-              onChange={handleChange}
-              fullWidth
-              required
-            />
-            <TextField
-              label="Expires At"
-              name="expiresAt"
-              type="date"
-              value={form.expiresAt}
-              onChange={handleChange}
-              InputLabelProps={{ shrink: true }}
-              fullWidth
-              required
-            />
+
             <Box textAlign="right">
-              <Button type="submit" variant="contained">Create Coupon</Button>
+              <Button type="submit" variant="contained">
+                Save
+              </Button>
             </Box>
           </Box>
         </DialogContent>
@@ -166,4 +155,4 @@ const Coupon = () => {
   );
 };
 
-export default Coupon;
+export default Dropdowns;

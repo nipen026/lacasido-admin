@@ -1,11 +1,12 @@
-import Banner from "../../Component/Banner"
 
-const BannerPage = () =>{
+import Category from "../../Component/Category";
+
+const CategoryPage = () =>{
     return (
         <>
-        <Banner/>
+        <Category/>
         </>
     )
 }
 
-export default BannerPage;
+export default CategoryPage;
