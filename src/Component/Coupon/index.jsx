@@ -20,7 +20,7 @@ import {
 } from "@mui/material";
 import { Plus, Trash, Pencil } from "lucide-react";
 
-import { GET_DROPDOWNS_BY_TYPE } from "../../api/get";
+import { GET_DROPDOWNS, GET_DROPDOWNS_BY_TYPE } from "../../api/get";
 import { ADD_DROPDOWN } from "../../api/post";
 import { DELETE_DROPDOWN } from "../../api/delete";
 import { UPDATE_DROPDOWN } from "../../api/put";
@@ -34,7 +34,7 @@ const Dropdowns = () => {
   const [editId, setEditId] = useState(null);
 
   /* filters */
-  const [type, setType] = useState("color");
+  const [type, setType] = useState("all");
   const [search, setSearch] = useState("");
 
   /* form */
@@ -45,7 +45,7 @@ const Dropdowns = () => {
 
   /* ================= FETCH ================= */
   const fetchDropdowns = async (selectedType = type) => {
-    const res = await GET_DROPDOWNS_BY_TYPE(selectedType);
+    const res = selectedType !== 'all' ? await GET_DROPDOWNS_BY_TYPE(selectedType) : await GET_DROPDOWNS(selectedType);
     setRows(res.data?.data || []);
   };
 
@@ -126,6 +126,7 @@ const Dropdowns = () => {
             onChange={(e) => setType(e.target.value)}
             sx={{ width: 220 }}
           >
+            <MenuItem value="all">All</MenuItem>
             <MenuItem value="color">Color</MenuItem>
             <MenuItem value="size">Size</MenuItem>
             <MenuItem value="material">Material</MenuItem>

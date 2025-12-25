@@ -16,7 +16,7 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-import BannerImg from '../../assets/banner.jpg';
+import BannerImg from '../../assets/banner_video.mp4';
 import { useNavigate } from 'react-router-dom';
 import { LOGIN } from '../../api/post';
 
@@ -63,13 +63,30 @@ const Login = () => {
                 justifyContent="center"
                 alignItems="center"
                 sx={{
-                    backgroundImage: `url(${BannerImg})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
                     color: 'white',
                     overflow: 'hidden',
                 }}
             >
+                {/* Video Background */}
+                <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        zIndex: 0,
+                    }}
+                >
+                    <source src={BannerImg} type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
+
                 {/* Overlay */}
                 <Box
                     position="absolute"
@@ -80,15 +97,18 @@ const Login = () => {
                     bgcolor="rgba(17, 24, 39, 0.7)"
                     zIndex={1}
                 />
+
+                {/* Content */}
                 <Box position="relative" zIndex={2} p={4} textAlign="center">
                     <Typography variant="h4" fontWeight={600} mb={1}>
-                        Welcome to Admin Panel
+                        Welcome to Lacasido Admin Panel
                     </Typography>
                     <Typography variant="body1" mb={4}>
                         Manage your business with powerful tools
                     </Typography>
                 </Box>
             </Box>
+
 
             {/* Right Panel */}
             <Box flex="1" display="flex" alignItems="center" justifyContent="center">

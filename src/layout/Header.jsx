@@ -43,7 +43,7 @@ const Header = () => {
           <img
             src={logo}
             alt="Logo"
-            style={{ width: 60, height: 60, marginRight: 10 }}
+            style={{ width: 90, height: 40, marginRight: 10 }}
           />
          
         </Box>

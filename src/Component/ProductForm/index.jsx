@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { UploadCloud, X } from "lucide-react";
 import { toast } from "react-toastify";
-import { useSearchParams, useLocation } from "react-router-dom";
+import { useSearchParams, useLocation, useNavigate } from "react-router-dom";
 import {
     GET_DROPDOWNS_BY_TYPE,
     GET_CATEGORY,
@@ -30,6 +30,7 @@ const ProductForm = () => {
     const [searchParams] = useSearchParams();
     const editId = searchParams.get("id");
     const location = useLocation();
+    const navigate = useNavigate();
     const product = location.state?.product;
 
     /* -------------------- FORM STATE -------------------- */
@@ -143,6 +144,7 @@ const ProductForm = () => {
         try {
             editId ? await UPDATE_PRODUCT(editId, data) : await ADD_PRODUCT(data);
             toast.success(editId ? "Product updated" : "Product added");
+            navigate("/product");
         } catch {
             toast.error("Something went wrong");
         }

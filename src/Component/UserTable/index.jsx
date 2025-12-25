@@ -108,7 +108,7 @@ export default function UserTable() {
                   Date
                 </TableSortLabel>
               </TableCell>
-              <TableCell align="right"><strong>Actions</strong></TableCell>
+              {/* <TableCell align="right"><strong>Actions</strong></TableCell> */}
             </TableRow>
           </TableHead>
 
@@ -127,11 +127,11 @@ export default function UserTable() {
                 <TableCell>{user.product?.name || "-"}</TableCell>
                 <TableCell>{user.message}</TableCell>
                 <TableCell>{getFormattedDate(user.created_at)}</TableCell>
-                <TableCell align="right">
+                {/* <TableCell align="right">
                   <IconButton>
                     <MoreVertical size={18} />
                   </IconButton>
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             ))}
 
