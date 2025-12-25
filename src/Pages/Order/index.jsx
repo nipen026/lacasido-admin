@@ -1,9 +1,9 @@
-import OrdersTable from "../../Component/OrderTable";
+import ContactTable from "../../Component/OrderTable";
 
 const Order = () =>{
     return (
         <>
-        <OrdersTable/>
+        <ContactTable/>
         </>
     )
 }

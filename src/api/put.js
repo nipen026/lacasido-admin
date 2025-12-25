@@ -13,3 +13,27 @@ export const UPDATE_PRODUCT = (id,data) => {
       .catch((err) => reject(err));
   });
 };
+export const UPDATE_CATEGORY = (id,data) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`${base_url}/api/admin/categories/${id}`, data,{
+        headers:{
+            Authorization:`Bearer ${token}`
+        }
+      })
+      .then((res) => resolve(res))
+      .catch((err) => reject(err));
+  });
+};
+export const UPDATE_DROPDOWN = (id,data) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(`${base_url}/api/admin/dropdowns/${id}`, data,{
+        headers:{
+            Authorization:`Bearer ${token}`
+        }
+      })
+      .then((res) => resolve(res))
+      .catch((err) => reject(err));
+  });
+};

@@ -27,12 +27,12 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
     // { label: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/' },
     { label: 'Products', icon: <Package size={20} />, path: '/product' },
     // { label: 'Inventory', icon: <Boxes size={20} />, path: '/inventory' },
-    // { label: 'Orders', icon: <ShoppingCart size={20} />, path: '/orders' },
-    // { label: 'Users', icon: <Users size={20} />, path: '/users' },
     // { label: 'Tracking', icon: <Truck size={20} />, path: '/tracking' },
     { label: 'Category', icon: <Tag size={20} />, path: '/category' },
     // { label: 'Rating & Review', icon: <Star size={20} />, path: '/rating' },
     { label: 'DropDowns', icon: <TicketPercent size={20} />, path: '/dropdowns' },
+    { label: 'Inquiries', icon: <Users size={20} />, path: '/users' },
+    { label: 'Contact', icon: <LayoutDashboard size={20} />, path: '/contact' },
   ];
 
   return (

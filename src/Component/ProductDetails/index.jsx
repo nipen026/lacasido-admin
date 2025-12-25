@@ -74,7 +74,7 @@ const ProductDetails = () => {
             <Grid container spacing={4}>
                 {/* Images */}
                 <Grid item xs={12} md={6}>
-                    <Paper elevation={3} sx={{ p: 2,boxShadow:'none' }}>
+                    <Paper elevation={3} sx={{ p: 2, boxShadow: 'none' }}>
                         {product.media?.length ? (
                             <Slider {...sliderSettings}>
                                 {product.media.map((img, idx) => (
@@ -108,7 +108,6 @@ const ProductDetails = () => {
 
                     <Stack direction="row" spacing={1} mt={2} mb={2}>
                         <Chip label={product.category?.name} color="primary" />
-                        <Chip label={product.material?.name} />
                         <Chip label={product.diamond_type?.name} />
                     </Stack>
 
@@ -122,6 +121,9 @@ const ProductDetails = () => {
 
                     <Typography color="text.secondary" mb={1}>
                         Size: <strong>{product.size?.name}</strong>
+                    </Typography>
+                    <Typography color="text.secondary" mb={1}>
+                        Material: <strong>{product.material?.name}</strong>
                     </Typography>
 
                     <Divider sx={{ my: 2 }} />

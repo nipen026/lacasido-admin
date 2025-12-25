@@ -39,7 +39,7 @@ function App() {
           <Route path="/inventory" element={<Product />} />
           <Route path="/product-form" element={<ProductForm />} />
           <Route path="/productDetails/:id" element={<ProductDetails />} />
-          <Route path="/orders" element={<Order />} />
+          <Route path="/contact" element={<Order />} />
           <Route path="/users" element={<User />} />
           <Route path="/tracking" element={<Tracking />} />
           <Route path="/category" element={<CategoryPage />} />

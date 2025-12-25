@@ -11,10 +11,10 @@ export const GET_PRODUCT = () => {
       .catch((err) => reject(err));
   });
 };
-export const GET_ORDERS = () => {
+export const GET_CONTACT_US = () => {
   return new Promise((resolve, reject) => {
     axios
-      .get(`${base_url}orders/admin/all`,{
+      .get(`${base_url}/api/admin/contact-us`,{
         headers:{
             Authorization:`Bearer ${token}`
         }
@@ -26,7 +26,7 @@ export const GET_ORDERS = () => {
 export const GET_USERS = () => {
   return new Promise((resolve, reject) => {
     axios
-      .get(`${base_url}auth/admin/getAllUsers`,{
+      .get(`${base_url}/api/admin/inquiries`,{
         headers:{
             Authorization:`Bearer ${token}`
         }
