@@ -3,5 +3,5 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
     plugins: [react()],
-    base: "/admin/", // if deploying on main domain
+    base: "/", // if deploying on main domain
 });
