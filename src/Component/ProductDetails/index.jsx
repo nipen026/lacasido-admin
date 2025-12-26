@@ -143,7 +143,9 @@ const ProductDetails = () => {
                     </Typography>
 
                     <Divider sx={{ my: 2 }} />
-
+                    <div
+                        dangerouslySetInnerHTML={{ __html: product.description }}
+                    />
                     {/* Color */}
                     <Typography variant="h6">Color</Typography>
                     <Stack direction="row" alignItems="center" spacing={1}>
