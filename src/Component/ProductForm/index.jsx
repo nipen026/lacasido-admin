@@ -32,11 +32,13 @@ const ProductForm = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const product = location.state?.product;
-
+    console.log(product,"product");
+    
     /* -------------------- FORM STATE -------------------- */
     const [form, setForm] = useState({
         name: "",
-        category_id: "",
+        category_id: "",       // ✅ FINAL (subcategory ID)
+        parent_category_id: "",// ✅ UI only
         color_id: "",
         material_id: "",
         diamond_type_id: "",
@@ -47,8 +49,9 @@ const ProductForm = () => {
         discount_type: "percentage",
         discount_value: "",
         indiamart_link: "",
-        description: "", // ✅ added
+        description: "",
     });
+
 
 
     const [images, setImages] = useState([]);
@@ -97,8 +100,9 @@ const ProductForm = () => {
 
         setForm({
             name: product.name || "",
-            category_id: product.category_id || "",
             color_id: product.color_id || "",
+            parent_category_id: product.category?.parent_id || "", // ✅ UI only
+            category_id: product.category?.id || "", // ✅ UI only
             material_id: product.material_id || "",
             diamond_type_id: product.diamond_type_id || "",
             size_id: product.size_id || "",
@@ -116,6 +120,22 @@ const ProductForm = () => {
     /* -------------------- HANDLERS -------------------- */
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
+    };
+    const handleParentCategoryChange = (e) => {
+        const parentId = e.target.value;
+
+        setForm((prev) => ({
+            ...prev,
+            parent_category_id: parentId,
+            category_id: "", // reset subcategory
+        }));
+    };
+
+    const handleSubCategoryChange = (e) => {
+        setForm((prev) => ({
+            ...prev,
+            category_id: e.target.value, // ✅ ONLY subcategory ID
+        }));
     };
 
     const handleImages = (files) => {
@@ -149,7 +169,9 @@ const ProductForm = () => {
             toast.error("Something went wrong");
         }
     };
-
+    const selectedParentCategory = categories.find(
+        (cat) => cat.id === form.parent_category_id
+    );
     /* -------------------- UI -------------------- */
     const renderSelect = (label, name, list) => (
         <FormControl fullWidth sx={{ mb: 2 }}>
@@ -173,7 +195,37 @@ const ProductForm = () => {
             <TextField label="Product Name" name="name" fullWidth value={form.name} onChange={handleChange} sx={{ mb: 2 }} />
             <TextField label="Design" name="design" fullWidth value={form.design} onChange={handleChange} sx={{ mb: 2 }} />
 
-            {renderSelect("Category", "category_id", categories)}
+            <FormControl fullWidth sx={{ mb: 2 }}>
+                <InputLabel>Category</InputLabel>
+                <Select
+                    value={form.parent_category_id}
+                    onChange={handleParentCategoryChange}
+                    label="Category"
+                >
+                    {categories.map((cat) => (
+                        <MenuItem key={cat.id} value={cat.id}>
+                            {cat.name}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
+            {selectedParentCategory?.subcategories?.length > 0 && (
+                <FormControl fullWidth sx={{ mb: 2 }}>
+                    <InputLabel>Sub Category</InputLabel>
+                    <Select
+                        value={form.category_id}
+                        onChange={handleSubCategoryChange}
+                        label="Sub Category"
+                    >
+                        {selectedParentCategory.subcategories.map((sub) => (
+                            <MenuItem key={sub.id} value={sub.id}>
+                                {sub.name}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+            )}
+
             {renderSelect("Color", "color_id", colors)}
             {renderSelect("Material", "material_id", materials)}
             {renderSelect("Diamond Type", "diamond_type_id", diamondTypes)}

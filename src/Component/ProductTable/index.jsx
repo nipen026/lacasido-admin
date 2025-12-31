@@ -128,15 +128,6 @@ const ProductTable = () => {
           >
             Add Product
           </Button>
-          <Button variant="outlined" sx={{ color: royalGreen }}>
-            Export
-          </Button>
-          <Button variant="outlined" startIcon={<Import size={18} />} sx={{ color: royalGreen }}>
-            Import
-          </Button>
-          <IconButton>
-            <LayoutList size={20} />
-          </IconButton>
         </Stack>
       </Box>
 
