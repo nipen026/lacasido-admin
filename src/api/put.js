@@ -18,7 +18,7 @@ export const UPDATE_CATEGORY = (id,data) => {
     axios
       .post(`${base_url}/api/admin/categories/${id}`, data,{
         headers:{
-            Authorization:`Bearer ${token}`
+            Authorization: `Bearer ${token}`
         }
       })
       .then((res) => resolve(res))
