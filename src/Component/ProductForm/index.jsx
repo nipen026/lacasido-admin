@@ -21,10 +21,19 @@ import { ADD_PRODUCT } from "../../api/post";
 import { UPDATE_PRODUCT } from "../../api/put";
 import SunEditor from "suneditor-react";
 import "suneditor/dist/css/suneditor.min.css";
+import { DELETE_PRODUCT_MEDIA, DELETE_PRODUCT_MEDIA_VIDEO } from "../../api/delete";
 
 
 
-const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png"];
+const ACCEPTED_MEDIA_TYPES = [
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "video/mp4",
+    "video/webm",
+    "video/ogg",
+];
+
 
 const ProductForm = () => {
     const [searchParams] = useSearchParams();
@@ -32,8 +41,8 @@ const ProductForm = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const product = location.state?.product;
-    console.log(product,"product");
-    
+    console.log(product, "product");
+
     /* -------------------- FORM STATE -------------------- */
     const [form, setForm] = useState({
         name: "",
@@ -62,7 +71,8 @@ const ProductForm = () => {
     const [materials, setMaterials] = useState([]);
     const [diamondTypes, setDiamondTypes] = useState([]);
     const [sizes, setSizes] = useState([]);
-
+    const [existingMedia, setExistingMedia] = useState([]);
+    const [removedMediaIds, setRemovedMediaIds] = useState([]);
     /* -------------------- FETCH DROPDOWNS -------------------- */
     useEffect(() => {
         const fetchDropdowns = async () => {
@@ -114,6 +124,7 @@ const ProductForm = () => {
             indiamart_link: product.indiamart_link || "",
             description: product.description || "", // ✅ added
         });
+        setExistingMedia(product.media || []);
     }, [editId, product]);
 
 
@@ -138,15 +149,34 @@ const ProductForm = () => {
         }));
     };
 
-    const handleImages = (files) => {
+    const handleMedia = (files) => {
         const valid = Array.from(files).filter((file) =>
-            ACCEPTED_IMAGE_TYPES.includes(file.type)
+            ACCEPTED_MEDIA_TYPES.includes(file.type)
         );
+
         setImages((prev) => [...prev, ...valid]);
     };
 
+
     const removeImage = (index) => {
         setImages((prev) => prev.filter((_, i) => i !== index));
+    };
+    const removeExistingMedia = async (media) => {
+        try {
+            console.log(media, "media");
+            if (media.type === "video") {
+                // Handle video deletion
+                  await DELETE_PRODUCT_MEDIA_VIDEO(media.id);
+                setExistingMedia((prev) => prev.filter((m) => m.id !== media.id));
+            } else {
+                await DELETE_PRODUCT_MEDIA(media.id);
+                setExistingMedia((prev) => prev.filter((m) => m.id !== media.id));
+            }
+
+            toast.success("Media deleted");
+        } catch (err) {
+            toast.error("Failed to delete media");
+        }
     };
 
     /* -------------------- SUBMIT -------------------- */
@@ -157,18 +187,39 @@ const ProductForm = () => {
             data.append(key, value);
         });
 
-        images.forEach((img, i) => {
-            data.append(`images[${i}]`, img);
+        // ✅ Append new images
+        // images.forEach((img, i) => {
+        //     data.append(`images[${i}]`, img);
+        // });
+        images.forEach((file, i) => {
+            if (file.type.startsWith("image/")) {
+                data.append(`images[${i}]`, file);  // 👈 IMAGE KEY
+            } else if (file.type.startsWith("video/")) {
+                data.append(`video`, file);   // 👈 VIDEO KEY
+            }
+        });
+
+        // ✅ Send removed media IDs
+        existingMedia.forEach((media, i) => {
+            if (media.type.startsWith("image/")) {
+                data.append(`images[${i}]`, media);  // 👈 IMAGE KEY
+            } else if (media.type.startsWith("video/")) {
+                data.append(`video[${i}]`, media);   // 👈 VIDEO KEY
+            }
         });
 
         try {
-            editId ? await UPDATE_PRODUCT(editId, data) : await ADD_PRODUCT(data);
+            editId
+                ? await UPDATE_PRODUCT(editId, data)
+                : await ADD_PRODUCT(data);
+
             toast.success(editId ? "Product updated" : "Product added");
             navigate("/product");
         } catch {
             toast.error("Something went wrong");
         }
     };
+
     const selectedParentCategory = categories.find(
         (cat) => cat.id === form.parent_category_id
     );
@@ -270,25 +321,96 @@ const ProductForm = () => {
 
             {/* IMAGES */}
             <Typography fontWeight={600}>Images</Typography>
+
+            {/* Upload */}
             <label htmlFor="image-upload">
-                <Box border="2px dashed #aaa" p={2} mt={1} textAlign="center" sx={{ cursor: "pointer" }}>
+                <Box
+                    border="2px dashed #aaa"
+                    p={2}
+                    mt={1}
+                    textAlign="center"
+                    sx={{ cursor: "pointer" }}
+                >
                     <UploadCloud />
                     <Typography variant="body2">Click to upload images</Typography>
                 </Box>
             </label>
 
-            <input id="image-upload" type="file" hidden multiple accept="image/*" onChange={(e) => handleImages(e.target.files)} />
+            <input
+                id="image-upload"
+                type="file"
+                hidden
+                multiple
+                accept="image/*,video/*"
+                onChange={(e) => handleMedia(e.target.files)}
+            />
 
+            {/* EXISTING IMAGES */}
             <Box display="flex" gap={1} mt={2} flexWrap="wrap">
-                {images.map((img, idx) => (
-                    <Box key={idx} position="relative">
-                        <img src={URL.createObjectURL(img)} width={80} height={80} style={{ borderRadius: 8 }} />
-                        <IconButton size="small" onClick={() => removeImage(idx)} sx={{ position: "absolute", top: 0, right: 0, bgcolor: "#fff" }}>
+                {existingMedia.map((media) => (
+                    <Box key={media.id} position="relative">
+                        {media.type === "video" ? (
+                            <video
+                                src={media.url}
+                                width={80}
+                                height={80}
+                                style={{ borderRadius: 8, objectFit: "cover" }}
+                                controls
+                            />
+                        ) : (
+                            <img
+                                src={media.url}
+                                width={80}
+                                height={80}
+                                style={{ borderRadius: 8, objectFit: "cover" }}
+                            />
+                        )}
+
+                        <IconButton
+                            size="small"
+                            onClick={() => removeExistingMedia(media)}
+                            sx={{
+                                position: "absolute",
+                                top: 0,
+                                right: 0,
+                                bgcolor: "#fff",
+                            }}
+                        >
                             <X size={14} />
                         </IconButton>
                     </Box>
                 ))}
             </Box>
+            {images.map((file, idx) => (
+                <Box key={idx} position="relative">
+                    {file.type.startsWith("video") ? (
+                        <video
+                            src={URL.createObjectURL(file)}
+                            width={80}
+                            height={80}
+                            controls
+                            style={{ borderRadius: 8 }}
+                        />
+                    ) : (
+                        <img
+                            src={URL.createObjectURL(file)}
+                            width={80}
+                            height={80}
+                            style={{ borderRadius: 8, objectFit: "cover" }}
+                        />
+                    )}
+
+                    <IconButton
+                        size="small"
+                        onClick={() => removeImage(idx)}
+                        sx={{ position: "absolute", top: 0, right: 0, bgcolor: "#fff" }}
+                    >
+                        <X size={14} />
+                    </IconButton>
+                </Box>
+            ))}
+
+
 
             <Box display="flex" justifyContent="flex-end" mt={4}>
                 <Button variant="contained" onClick={handleSubmit}>

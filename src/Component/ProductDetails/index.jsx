@@ -20,20 +20,7 @@ const ProductDetails = () => {
     const [loading, setLoading] = useState(false);
     const location = useLocation();
     const product = location.state?.product;
-    //   const fetchProduct = async () => {
-    //     try {
-    //       const res = await GET_PRODUCT_BY_ID(id);
-    //       setProduct(res.data.product);
-    //     } catch (error) {
-    //       console.error(error);
-    //     } finally {
-    //       setLoading(false);
-    //     }
-    //   };
 
-    //   useEffect(() => {
-    //     fetchProduct();
-    //   }, [id]);
 
     if (loading)
         return (
@@ -77,20 +64,36 @@ const ProductDetails = () => {
                     <Paper elevation={3} sx={{ p: 2, boxShadow: 'none' }}>
                         {product.media?.length ? (
                             <Slider {...sliderSettings}>
-                                {product.media.map((img, idx) => (
+                                {product.media.map((media, idx) => (
                                     <Box key={idx} textAlign="center">
-                                        <img
-                                            src={img.original_url || img.url}
-                                            alt={product.name}
-                                            style={{
-                                                width: "100%",
-                                                maxHeight: 450,
-                                                objectFit: "contain",
-                                                borderRadius: 8,
-                                            }}
-                                        />
+                                        {media.type === "video" ? (
+                                            <video
+                                                src={media.url}
+                                                controls
+                                                muted
+                                                playsInline
+                                                style={{
+                                                    width: "100%",
+                                                    maxHeight: 450,
+                                                    borderRadius: 8,
+                                                    background: "#000",
+                                                }}
+                                            />
+                                        ) : (
+                                            <img
+                                                src={media.url}
+                                                alt={product.name}
+                                                style={{
+                                                    width: "100%",
+                                                    maxHeight: 450,
+                                                    objectFit: "contain",
+                                                    borderRadius: 8,
+                                                }}
+                                            />
+                                        )}
                                     </Box>
                                 ))}
+
                             </Slider>
                         ) : (
                             <Typography align="center" color="text.secondary">
