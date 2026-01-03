@@ -281,6 +281,7 @@ const ProductForm = () => {
             {renderSelect("Material", "material_id", materials)}
             {renderSelect("Diamond Type", "diamond_type_id", diamondTypes)}
             {renderSelect("Size", "size_id", sizes)}
+            <TextField label="Indiamart Link" name="indiamart_link" fullWidth value={form.indiamart_link} onChange={handleChange} sx={{ mb: 2 }} />
 
             <TextField label="Weight (gm)" name="weight" type="number" fullWidth value={form.weight} onChange={handleChange} sx={{ mb: 2 }} />
             <TextField label="Price" name="price" type="number" fullWidth value={form.price} onChange={handleChange} sx={{ mb: 2 }} />
