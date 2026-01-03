@@ -293,6 +293,7 @@ const ProductForm = () => {
                 </Select>
             </FormControl>
 
+
             <TextField label="Discount Value" name="discount_value" type="number" fullWidth value={form.discount_value} onChange={handleChange} sx={{ mb: 2 }} />
 
             <Box mb={2}>
