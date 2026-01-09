@@ -59,6 +59,7 @@ const ProductForm = () => {
         discount_value: "",
         indiamart_link: "",
         description: "",
+        trending:false,
     });
 
 
@@ -123,6 +124,7 @@ const ProductForm = () => {
             discount_value: product.discount_value || "",
             indiamart_link: product.indiamart_link || "",
             description: product.description || "", // ✅ added
+            trending: product.trending || "", // ✅ added
         });
         setExistingMedia(product.media || []);
     }, [editId, product]);
@@ -290,6 +292,13 @@ const ProductForm = () => {
                 <Select name="discount_type" value={form.discount_type} onChange={handleChange} label="Discount Type">
                     <MenuItem value="percentage">Percentage</MenuItem>
                     <MenuItem value="fixed">Fixed Amount</MenuItem>
+                </Select>
+            </FormControl>
+            <FormControl fullWidth sx={{ mb: 2 }}>
+                <InputLabel>Trending</InputLabel>
+                <Select name="trending" value={form.trending} onChange={handleChange} label="Trending">
+                    <MenuItem value="true">True</MenuItem>
+                    <MenuItem value="false">False</MenuItem>
                 </Select>
             </FormControl>
 
