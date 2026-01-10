@@ -59,7 +59,7 @@ const ProductForm = () => {
         discount_value: "",
         indiamart_link: "",
         description: "",
-        trending:false,
+        trending:0,
     });
 
 
@@ -297,8 +297,8 @@ const ProductForm = () => {
             <FormControl fullWidth sx={{ mb: 2 }}>
                 <InputLabel>Trending</InputLabel>
                 <Select name="trending" value={form.trending} onChange={handleChange} label="Trending">
-                    <MenuItem value="true">True</MenuItem>
-                    <MenuItem value="false">False</MenuItem>
+                    <MenuItem value={1}>True</MenuItem>
+                    <MenuItem value={0}>False</MenuItem>
                 </Select>
             </FormControl>
 
